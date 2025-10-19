@@ -13,6 +13,8 @@ import Navbar from './components/student/Navbar'
 import CoursePreviewPage from "./pages/student/CoursePreviewPage";
 import Player from './pages/student/Player'
 import MyCourse from './pages/educator/MyCourse'
+import "quill/dist/quill.snow.css";
+
 
 
 const App = () => {
