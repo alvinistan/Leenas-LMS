@@ -46,10 +46,10 @@ const AddCourse = () => {
           </div>
         </div>
         {/* Course Price */}
-        <div>
+        <div className="flex items-center justify-between flex-wrap ">
           <div className="flex flex-col gap-1">
             <p>Course Price</p>
-            <input className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500 gap-1" required type="text" name="" id=""/>
+            <input type="number" placeholder="0"  onChange={(e)=> setCoursePrice(e.target.value)} value={coursePrice} className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500 gap-1" required />
           </div>
         </div>
 
