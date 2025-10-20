@@ -65,7 +65,13 @@ const AddCourse = () => {
         </div>
       </div>
 
-      
+      {/*Course Discount Section  */}
+      <div>
+        <p>Discount %</p>
+        <input className="outline-none md:py-2.5 px-3 py-2 w-28 rounded border border-gray-500" type="number" placeholder="0" min={0} max={100} onChange={e => setDiscount(e.target.value)} value={discount} required/>
+      </div>
+
+
 
       </form>
     </div>
