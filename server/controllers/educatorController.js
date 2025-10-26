@@ -34,3 +34,4 @@ export const updateRoleToEducator = async (req, res) => {
     })
   }
 }
+
