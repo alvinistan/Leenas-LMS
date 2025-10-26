@@ -1,30 +1,45 @@
+// server.js
 import express from 'express'
 import cors from 'cors'
-import 'dotenv/config';
+import 'dotenv/config'
 import connectDB from './configs/mongodb.js'
-import { clerkWebhooks } from './controllers/webhooks.js';
-import educatorRouter from './routes/educatorRoutes.js';
-import { clerkMiddleware } from '@clerk/express';
+import { clerkWebhooks } from './controllers/webhooks.js'
+import educatorRouter from './routes/educatorRoutes.js'
+import { clerkMiddleware, requireAuth } from '@clerk/express'
+import listEndpoints from 'express-list-endpoints'
 
-//initialize Express
+// Initialize Express
 const app = express()
 
-// Connect to database
+// --- Connect to DB (top-level await ok on Node 18+) ---
 await connectDB()
 
-//MiddleWare
+// --- Core middleware ---
 app.use(cors())
+
+/**
+ * IMPORTANT: Clerk webhooks require the RAW body for signature verification.
+ * So register the webhook route with `express.raw()` BEFORE any global `express.json()`.
+ */
+app.post('/clerk', express.raw({ type: 'application/json' }), clerkWebhooks)
+
+// Now it’s safe to parse JSON for the rest of the app
+app.use(express.json())
+
+// Clerk middleware (populates req.auth())
 app.use(clerkMiddleware())
 
-//Routes
-app.get('/',(req,res) => {
-    res.send({"API is Working": 'ewf'})
+// --- Routes ---
+app.get('/', (req, res) => {
+  res.send({ 'API is Working': 'ewf' })
 })
-app.post('/clerk', express.json(),clerkWebhooks)
-app.use('/api/educator', express.json(),educatorRouter)
 
-//Port
+// Protect educator routes (require a signed-in user)
+app.use('/api/educator', requireAuth(), educatorRouter)
+
+// --- Start server ---
 const PORT = process.env.PORT || 5000
-app.listen(PORT, ()=> {
-    console.log(`server is working on Port : ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`server is working on Port : ${PORT}`)
+  console.table(listEndpoints(app)) // See what’s registered
 })
