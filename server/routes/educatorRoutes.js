@@ -1,6 +1,8 @@
 // routes/educatorRoutes.js
 import { Router } from 'express'
-import { updateRoleToEducator } from '../controllers/educatorController.js'
+import { addCourse, getEducatorCourses, updateRoleToEducator } from '../controllers/educatorController.js'
+import upload from '../configs/multer.js'
+import { protectEducator } from '../middlewares/authMiddleware.js'
 
 const educatorRouter = Router()
 
@@ -9,5 +11,7 @@ educatorRouter.get('/ping', (req, res) => res.json({ ok: true }))
 
 // Route to update role → educator
 educatorRouter.post('/update-role', updateRoleToEducator)
-
+educatorRouter.post('/add-course',upload.single('image'), protectEducator,addCourse)
+//08:29
+educatorRouter.get('/courses',protectEducator,getEducatorCourses)
 export default educatorRouter

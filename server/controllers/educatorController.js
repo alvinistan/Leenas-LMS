@@ -1,5 +1,5 @@
 import { clerkClient } from '@clerk/express'
-import Course from '../models/Course'
+import Course from '../models/Course.js'
 import {v2 as cloudinary} from 'cloudinary'
 
 // Update role to educator
@@ -62,4 +62,18 @@ export const addCourse = async (req,res)=> {
     res.json({success: false, message: error.message })
   }
   
+}
+
+// Get Educator Courses
+export const getEducatorCourses = async (req,res)=> {
+  try {
+    //const educator = req.auth.userId
+    const { educator } = req.auth()
+
+    const courses = await Course.find({educator})
+    res.json({success: true, courses})
+    
+  } catch (error) {
+    res.json({success: false, message: error.message})
+  }
 }

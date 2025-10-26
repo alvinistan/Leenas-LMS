@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 const lectureSchema = new mongoose.Schema({
     lectureId: {type: String, required: true},
@@ -10,7 +10,7 @@ const lectureSchema = new mongoose.Schema({
 }, {_id: false});
 
 
-const chapterSchema = new Mongoose.Schema({
+const chapterSchema = new mongoose.Schema({
     chapterId: {type: String, required: true},
     chapterOrder: {type: Number, required:true},
     chapterTitle: {type: String, required: true},
