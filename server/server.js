@@ -9,6 +9,7 @@ import { clerkMiddleware, requireAuth } from '@clerk/express'
 import listEndpoints from 'express-list-endpoints'
 import connectCloudinary from './configs/cloudinary.js'
 import courseRouter from './routes/courseRoute.js'
+import userRouter from './routes/userRoutes.js'
 
 // Initialize Express
 const app = express()
@@ -43,6 +44,7 @@ app.get('/', (req, res) => {
 app.use('/api/educator', requireAuth(), educatorRouter)
 
 app.use('/api/course', express.json(), courseRouter)
+app.use('/api/user',express.json(),userRouter)
 
 // --- Start server ---
 const PORT = process.env.PORT || 5000
