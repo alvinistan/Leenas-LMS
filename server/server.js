@@ -8,6 +8,7 @@ import educatorRouter from './routes/educatorRoutes.js'
 import { clerkMiddleware, requireAuth } from '@clerk/express'
 import listEndpoints from 'express-list-endpoints'
 import connectCloudinary from './configs/cloudinary.js'
+import courseRouter from './routes/courseRoute.js'
 
 // Initialize Express
 const app = express()
@@ -40,6 +41,8 @@ app.get('/', (req, res) => {
 
 // Protect educator routes (require a signed-in user)
 app.use('/api/educator', requireAuth(), educatorRouter)
+
+app.use('/api/course', express.json(), courseRouter)
 
 // --- Start server ---
 const PORT = process.env.PORT || 5000
