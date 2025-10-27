@@ -15,3 +15,15 @@ export const gretUserData = async (req,res)=> {
         res.json({success: false, message: error.message})
     }
 }
+
+// Get User Enrolled Courses with Lecture Links
+export const userEnrolledCourses = async (req,res)=> {
+try {
+    const userId = req.auth()
+    const userData = await User.findById(userId).populate('enrolledCourses')
+
+    res.json({success: true, enrolledCourses: userData.enrolledCourses})
+} catch (error) {
+    res.json({success: false, message: error.message})
+}
+}
